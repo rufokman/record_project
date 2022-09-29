@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<form id="form-container" method="POST">
+    {% csrf_token %}
+    <table>
+        <thead>
+        <tr>
+            <th>Организация</th>
+            <th>Название должности</th>
+            <th>ФИО сотрудника</th>
+            <th>Наименование КПЭ</th>
+            <th>Методика расчета</th>
+            <th>Нижний уровень</th>
+            <th>Целевой уровень</th>
+            <th>Верхний уровень</th>
+            <th>Вес</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{card_formset.management_form}}
+        {% for form in card_formset %}
+        <tr class="bird-form">
+            <td>{{ form.organization }}</td>
+            <td>{{ form.role }}</td>
+            <td>{{ form.fio }}</td>
+            <td>{{ form.name }}</td>
+            <td>{{ form.method }}</td>
+            <td>{{ form.low_level }}</td>
+            <td>{{ form.target_level }}</td>
+            <td>{{ form.high_level }}</td>
+            <td>{{ form.weight }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button id="add-form" type="button">Добавить</button>
+    <button type="submit">Отправить</button>
+</form>
+<script>
+    let birdForm = document.querySelectorAll(".bird-form")
+    let container = document.querySelector("#form-container")
+    let addButton = document.querySelector("#add-form")
+    let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+    let formNum = birdForm.length-1
+    addButton.addEventListener('click', addForm)
+
+    function addForm(e){
+        e.preventDefault()
+
+        let newForm = birdForm[0].cloneNode(true)
+        let formRegex = RegExp(`form-(\\d){1}-`,'g')
+
+        formNum++
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+        container.insertBefore(newForm, addButton)
+
+        totalForms.setAttribute('value', `${formNum+1}`)
+    }
+</script>
+{% endblock %}

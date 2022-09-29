@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="table-responsive">
+    <table style="width:100%">
+      <thead>
+        <tr>
+            <th scope="col">Организация</th>
+            <th scope="col">Название должности</th>
+            <th scope="col">ФИО сотрудника, в чью карту устанавливается КПЭ</th>
+            <th scope="col">ID КПЭ в ИС РЕКОРД</th>
+            <th scope="col">Наименование КПЭ</th>
+            <th scope="col">Тип КПЭ (Методика расчета)</th>
+            <th scope="col">Нижний уровень</th>
+            <th scope="col">Целевой уровень</th>
+            <th scope="col">Верхний уровень</th>
+            <th scope="col">Вес</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>{{ form.organization }}</td>
+          <td>{{ form.role }}</td>
+          <td>{{ form.fio }}</td>
+          <td>{{ form.id_kpi_record }}</td>
+          <td>{{ form.name }}</td>
+          <td>{{ form.method }}</td>
+          <td>{{ form.low_level }}</td>
+          <td>{{ form.target_level }}</td>
+          <td>{{ form.high_level }}</td>
+          <td>{{ form.weight }}</td>
+          <script type = "text/javascript">
+              function myfunc(event) {
+              var weight = document.getElementById('id_weight').value;
+              var method = document.getElementById('id_method').value;
+
+              if (method == 3) {
+                if (weight > 0) {
+                    alert("Значение веса должно быть отрицательным");
+                }
+              } else {
+              if (weight < 9 || weight > 61) {
+                alert( "Значение веса должно должно быть больше или равно 10, но меньше или равно 60" );
+              };
+              if (method == 0 || method == 1) {
+                if ( weight % 5 != 0) {
+                    alert( "Значение веса должно должно быть кратным 5" );
+                }
+              }}
+
+              };
+
+
+          </script>
+
+
+
+      </tr>
+      </tbody>
+    </table>
+
+</div>
+<div class="d-grid gap-2">
+  <button class="btn btn-primary" type="submit" onclick="myfunc(event)">Обновить</button>
+</div>
+
+</form>
+
+
+{% endblock %}

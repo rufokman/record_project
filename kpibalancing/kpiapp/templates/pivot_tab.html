@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+            <th scope="col">№ п/п</th>
+            <th scope="col">Организация</th>
+            <th scope="col">Функция</th>
+            <th scope="col">Тип КПЭ</th>
+            <th scope="col">Корректировка</th>
+            <th scope="col">ID сотрудника</th>
+            <th scope="col">Название должности</th>
+            <th scope="col">ФИО сотрудника, в чью карту устанавливается КПЭ	ID КПЭ в ИС РЕКОРД</th>
+            <th scope="col">Наименование КПЭ</th>
+            <th scope="col">Тип КПЭ (Методика расчета)</th>
+            <th scope="col">Нижний уровень</th>
+            <th scope="col">Целевой уровень</th>
+            <th scope="col">Верхний уровень</th>
+            <th scope="col">Вес</th>
+            <th scope="col">Паспорт</th>
+            <th scope="col">Комментарий</th>
+            <th scope="col">Комментарии по аудиту (ЦА)</th>
+            <th scope="col">Комментарии по аудиту (АЭС/ДО)</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for row in table_list %}
+      <tr>
+          <td>{{ row.id }}</td>
+          <td contenteditable>{{ row.get_organization_display }}</td>
+          <td>{{ row.get_function_display }}</td>
+          <td>{{ row.get_type_display }}</td>
+          <td>{{ row.get_action_display }}</td>
+          <td>{{ row.id_worker }}</td>
+          <td>{{ row.role }}</td>
+          <td>{{ row.fio }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.get_method_display }}</td>
+          <td>{{ row.low_level }}</td>
+          <td>{{ row.target_level }}</td>
+          <td>{{ row.high_level }}</td>
+          <td>{{ row.weight }}</td>
+          <td>{{ row.path_to_doc }}</td>
+          <td>{{ row.comment }}</td>
+          <td>{{ row.comment_CA }}</td>
+          <td>{{ row.comment_AES_DO }}</td>
+
+
+
+      </tr>
+
+      </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="table-responsive">
+    <table style="width:100%">
+      <thead>
+        <tr>
+            <th scope="col">Организация</th>
+            <th scope="col">Название должности</th>
+            <th scope="col">ФИО сотрудника, в чью карту устанавливается КПЭ</th>
+            <th scope="col">ID КПЭ в ИС РЕКОРД</th>
+            <th scope="col">Наименование КПЭ</th>
+            <th scope="col">Тип КПЭ (Методика расчета)</th>
+            <th scope="col">Нижний уровень</th>
+            <th scope="col">Целевой уровень</th>
+            <th scope="col">Верхний уровень</th>
+            <th scope="col">Вес</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>{{ form.organization }}</td>
+          <td>{{ form.role }}</td>
+          <td>{{ form.fio }}</td>
+          <td>{{ form.id_kpi_record }}</td>
+          <td>{{ form.name }}</td>
+          <td>{{ form.method }}</td>
+          <td>{{ form.low_level }}</td>
+          <td>{{ form.target_level }}</td>
+          <td>{{ form.high_level }}</td>
+          <td>{{ form.weight }}</td>
+          <script type = "text/javascript">
+              function myfunc(event) {
+              var weight = document.getElementById('id_weight').value;
+              var method = document.getElementById('id_method').value;
+
+              if (method == 3) {
+                if (weight > 0) {
+                    alert("Значение веса должно быть отрицательным");
+                }
+              } else {
+              if (weight < 9 || weight > 61) {
+                alert( "Значение веса должно должно быть больше или равно 10, но меньше или равно 60" );
+              };
+              if (method == 0 || method == 1) {
+                if ( weight % 5 != 0) {
+                    alert( "Значение веса должно должно быть кратным 5" );
+                }
+              }}
+
+              };
+
+
+          </script>
+
+
+
+      </tr>
+      </tbody>
+    </table>
+
+</div>
+<div class="d-grid gap-2">
+  <button class="btn btn-primary" type="submit" onclick="myfunc(event)">Отправить форму</button>
+</div>
+
+</form>
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+            <th scope="col">Действия</th>
+<!--            <th scope="col">№ п/п</th>-->
+            <th scope="col">Организация</th>
+            <th scope="col">Функция</th>
+            <th scope="col">Тип КПЭ</th>
+            <th scope="col">Корректировка</th>
+            <th scope="col">ID сотрудника</th>
+            <th scope="col">Название должности</th>
+            <th scope="col">ФИО сотрудника, в чью карту устанавливается КПЭ	ID КПЭ в ИС РЕКОРД</th>
+            <th scope="col">Наименование КПЭ</th>
+            <th scope="col">Тип КПЭ (Методика расчета)</th>
+            <th scope="col">Нижний уровень</th>
+            <th scope="col">Целевой уровень</th>
+            <th scope="col">Верхний уровень</th>
+            <th scope="col">Вес</th>
+            <th scope="col">Паспорт</th>
+            <th scope="col">Комментарий</th>
+            <th scope="col">Комментарии по аудиту (ЦА)</th>
+            <th scope="col">Комментарии по аудиту (АЭС/ДО)</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for row in table_list %}
+      <tr>
+          <td class="text-center">
+              <a style="display:block;width:100px" type="button" class="btn btn-outline-info" href="{%  url 'update' row.id %}">Изменить</a>
+              <a style="display:block;width:100px" type="button" class="btn btn-outline-info" href="{%  url 'delete' row.id %}">Удалить</a>
+
+          </td>
+<!--          <td>{{ row.id }}</td>-->
+          <td>{{ row.get_organization_display }}</td>
+          <td>{{ row.get_function_display }}</td>
+          <td>{{ row.get_type_display }}</td>
+          <td>{{ row.get_action_display }}</td>
+          <td>{{ row.id_worker }}</td>
+          <td>{{ row.role }}</td>
+          <td>{{ row.fio }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.get_method_display }}</td>
+          <td>{{ row.low_level }}</td>
+          <td>{{ row.target_level }}</td>
+          <td>{{ row.high_level }}</td>
+          <td>{{ row.weight }}</td>
+          <td>{{ row.path_to_doc }}</td>
+          <td>{{ row.comment }}</td>
+          <td>{{ row.comment_CA }}</td>
+          <td>{{ row.comment_AES_DO }}</td>
+
+
+
+      </tr>
+      {% endfor %}
+
+      </tbody>
+    </table>
+
+</div>
+{% endblock %}
